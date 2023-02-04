@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input type="text" class="search" placeholder="City or State" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <script>
+      const endPoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+      const cities = [];
+      // fetch will return a promise
+      fetch(endPoint)
+        .then((info) => info.json())
+        .then((data) => cities.push(...data));
+
+      function findMatches(matchingWords, cities) {
+        return cities.filter((place) => {
+          // https://www.w3schools.com/js/js_regexp.asp
+          // RegExp = search pattern can be used for text search
+          // g-perform a global match (find all matches rather than stopping after the first match)
+          // i-perform case-insensitive matching
+          const regex = new RegExp(matchingWords, "gi");
+          return place.city.match(regex) || place.state.match(regex);
+        });
+      }
+
+      function showMatches() {
+        // console.log(this.value);
+        const matchArray = findMatches(this.value, cities);
+        // https://www.w3schools.com/jsref/jsref_map.asp
+        // map = create new array, original array unchanged
+        const html = matchArray
+          .map((place) => {
+            const regex = new RegExp(this.value, "gi");
+            // highlight matched part of words
+            // https://www.w3schools.com/jsref/jsref_replace.asp
+            // replace() method returns a new string with the value(s) replaced, original unchanged
+            const cityName = place.city.replace(
+              regex,
+              `<span class="hl"> ${this.value} </span>`
+            );
+            return `
+            <li>
+              <span class ='name'> ${cityName},  ${place.state} </span>
+              <span class ='population'> ${place.population} </span>
+            </li>
+            `;
+          })
+          .join("");
+        suggestions.innerHTML = html;
+      }
+
+      const searchInput = document.querySelector(".search");
+      const suggestions = document.querySelector(".suggestions");
+      // function name without the parentheses is a reference to the function.
+      // Reason: we don't want the function to be called immediately
+      // the addEventListener method is expecting a function to be passed in
+      searchInput.addEventListener("change", showMatches);
+      searchInput.addEventListener("keyup", showMatches);
+    </script>
+  </body>
+</html>
