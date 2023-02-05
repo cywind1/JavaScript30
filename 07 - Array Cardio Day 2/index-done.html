@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Array Cardio 💪💪</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <p><em>Psst: have a look at the JavaScript Console</em> 💁</p>
+    <script>
+      // ## Array Cardio Day 2
+
+      const people = [
+        { name: "Wes", year: 1988 },
+        { name: "Kait", year: 1986 },
+        { name: "Irv", year: 1970 },
+        { name: "Lux", year: 2015 },
+      ];
+
+      let comments = [
+        { text: "Love this!", id: 523423 },
+        { text: "Super good", id: 823423 },
+        { text: "You are the best", id: 2039842 },
+        { text: "Ramen is my fav food ever", id: 123523 },
+        { text: "Nice Nice Nice!", id: 542328 },
+      ];
+
+      // Some and Every Checks
+      // Array.prototype.some() // is at least one person 19 or older?
+      // Array.prototype.every() // is everyone 19 or older?
+
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some
+      // testing value of array elements
+      // return true or false
+
+      // function version
+      // more preferred than variable, var = need to redefine the action
+      function checkAdult() {
+        return people.some((person) => {
+          const currentYear = new Date().getFullYear();
+          console.log(currentYear);
+          if (currentYear - person.year >= 19) {
+            return true;
+          }
+        });
+      }
+
+      console.log(checkAdult());
+
+      // variable version
+      // const checkAdult = people.some((person) => {
+      //   const currentYear = new Date().getFullYear();
+      //   console.log(currentYear);
+      //   if (currentYear - person.year >= 19) {
+      //     return true;
+      //   }
+      // });
+
+      // console.log(checkAdult);
+
+      // Array.prototype.find()
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+      // Find is like filter, but instead returns the first element in the provided array that satisfies the provided testing function.
+      // If no values satisfy the testing function, undefined is returned
+      // find the comment with the ID of 823423
+
+      function findTarget(target) {
+        return comments.find((comment) => {
+          if (comment.id == target) {
+            return comment;
+          }
+        });
+      }
+
+      // variable version
+      // const findId = comments.find((comment) => {
+      //   const targetId = 823423;
+      //   if (comment.id == targetId) {
+      //     return comment;
+      //   }
+      // });
+
+      // console.log(findId);
+
+      // Array.prototype.findIndex()
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex
+      // Find the comment with this ID
+
+      function findIndex(target) {
+        return comments.findIndex((comment) => {
+          if (comment.id == target) {
+            return comment;
+          }
+        });
+      }
+
+      // delete the comment with the ID of 823423
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+      // slice() = changes the contents of an array by removing or replacing existing elements
+      // default = no return
+      function deleteId(targetId) {
+        comments.splice(findIndex(targetId), 1);
+      }
+    </script>
+  </body>
+</html>
