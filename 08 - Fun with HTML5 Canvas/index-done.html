@@ -1,0 +1,81 @@
+;<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML5 Canvas</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <canvas id="draw" width="800" height="800"></canvas>
+    <script>
+      // # = id
+      const canvas = document.querySelector("#draw");
+      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext
+      // .getContext() returns a drawing context on the canvas
+      const context = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      context.strokeStyle = "#BADA55";
+      context.lineJoin = "round";
+      context.lineCap = "round";
+      context.lineWidth = 10;
+
+      let isDrawing = false;
+      let direction = true;
+      let lastX = 0;
+      let lastY = 0;
+      let hue = 0;
+
+      function draw(e) {
+        if (!isDrawing) return;
+        console.log(e);
+        // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+        context.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        context.beginPath();
+        context.moveTo(lastX, lastY);
+        context.lineTo(e.offsetX, e.offsetY);
+        context.stroke();
+        // overlapping color
+        context.globalCompositeOperation = "multiply";
+        // update last location as new location
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+        // change the color
+        hue++;
+        // reset if hits kunut
+        if (hue >= 360) {
+          hue = 0;
+        }
+
+        if (context.lineWidth >= 50 || context.lineWidth <= 1) {
+          // flio direction if hits limit
+          direction = !direction;
+        }
+        if (direction) {
+          context.lineWidth++;
+        } else {
+          context.lineWidth--;
+        }
+      }
+
+      // input e = essential
+      canvas.addEventListener("mousedown", (e) => {
+        isDrawing = true;
+        // prefer start from [0,0]
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+      });
+
+      canvas.addEventListener("mousemove", draw);
+
+      canvas.addEventListener("mouseup", () => (isDrawing = false));
+      canvas.addEventListener("mouseout", () => (isDrawing = false));
+    </script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+    </style>
+  </body>
+</html>
