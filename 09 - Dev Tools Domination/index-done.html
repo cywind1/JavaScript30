@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Console Tricks!</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+    <script>
+      const dogs = [
+        { name: "Snickers", age: 2 },
+        { name: "hugo", age: 8 },
+      ];
+
+      function makeGreen() {
+        const p = document.querySelector("p");
+        p.style.color = "#BADA55";
+        p.style.fontSize = "50px";
+      }
+
+      let var_name = "Name";
+      // Regular
+      console.log("hello");
+      // Interpolated
+      console.log(`Hello, I am ${var_name}`);
+      // Styled
+      console.log("%cHello, it's big", "font-size: 50px");
+      // warning!
+      console.warn("Oh No");
+      // Error :|
+      console.error("Error occurs");
+      // Info
+      console.error("Info");
+      // Testing
+      const p = document.querySelector("p");
+      console.assert(p.classList.contains("ouch"), "That's wrong!");
+      // clearing
+      console.clear();
+      // Viewing DOM Elements
+      console.dir();
+
+      // Grouping together
+      dogs.forEach((dog) => {
+        console.groupCollapsed(`${dog.name}`);
+        console.log(`This is ${dog.name}`);
+        console.log(`${dog.name} is ${dog.age} years old`);
+        console.groupEnd(`x${dog.name}`);
+      });
+      // counting
+      console.count("Steve");
+      console.count("Steve");
+      console.count("Steve");
+
+      // timing
+      // fetching data = variable must be synchronized
+      // https != http
+      console.time("fetching data");
+      fetch("https://api.github.com/users/wesbos")
+        .then((data) => data.json())
+        .then((data) => {
+          console.timeEnd("fetching data");
+          console.log(data);
+        });
+      // unshown til typing in browser
+      console.table(dogs);
+    </script>
+  </body>
+</html>
