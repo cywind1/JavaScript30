@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sort Without Articles</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      #bands {
+        list-style: inside square;
+        font-size: 20px;
+        background: white;
+        width: 500px;
+        margin: auto;
+        padding: 0;
+        box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+
+      #bands li {
+        border-bottom: 1px solid #efefef;
+        padding: 20px;
+      }
+
+      #bands li:last-child {
+        border-bottom: 0;
+      }
+
+      a {
+        color: #ffc600;
+        text-decoration: none;
+      }
+    </style>
+
+    <ul id="bands"></ul>
+
+    <script>
+      const bands = [
+        "The Plot in You",
+        "The Devil Wears Prada",
+        "Pierce the Veil",
+        "Norma Jean",
+        "The Bled",
+        "Say Anything",
+        "The Midway State",
+        "We Came as Romans",
+        "Counterparts",
+        "Oh, Sleeper",
+        "A Skylit Drive",
+        "Anywhere But Here",
+        "An Old Dog",
+      ];
+
+      // Bug: If an arrow function body is a block, it doesn’t implicitly return anything
+      // If you use { and } inside an arrow function, you must also use a return statement
+      const newBands = bands.map((item) => {
+        if (item.substring(0, 4).includes("The ")) {
+          item = item.slice(4);
+          // console.log("The");
+        } else if (item.substring(0, 3).includes("An ")) {
+          item = item.slice(3);
+          // console.log("An");
+        } else if (item.substring(0, 2).includes("A ")) {
+          item = item.slice(2);
+          // console.log("A");
+        }
+        return item;
+      });
+
+      newBands.sort((a, b) => {
+        var itemA = a.toUpperCase();
+        var itemB = b.toUpperCase();
+        return itemA.localeCompare(itemB);
+      });
+
+      // objects in JavaScript are passed by reference. And map() (and the other methods) only create a shallow copy of the array they are called on. So if that array is composed of objects, then the copy of the array that map() uses has references to those same objects.
+
+      // 3rd argument of map() is the array itself
+      // array = newBands are changed
+      sortedBands = newBands.map((item, index, array) => {
+        bands.forEach((item_o) => {
+          if (item_o.includes(item)) {
+            array[index] = item_o;
+            // array[index] = item_o;
+            // new_index = newBands.indexOf(item);
+            // array[new_index] = item_o;
+          }
+          // console.log(item_o);
+          // sortedBands.indexOf(item) = newBands.indexOf(item);
+        });
+        return array[index];
+        // return array[new_index];
+      });
+
+      // Option 2
+      // function strip(bandName){
+      //   // ^ = start with, i = Both upper & lowercase
+      //   return bandName.replace(/^(a | the |an )/i, "").trim();
+      // }
+      // const sortedBands = bands.sort((a, b) => strip(a) > strip(b) ? 1:-1);
+
+      console.log(bands);
+      // changed newBands (with articles)
+      console.log(newBands);
+      console.log(sortedBands);
+
+      // array - .toString() -> "," between items
+      // .join() =
+      document.querySelector("#bands").innerHTML = sortedBands
+        .map((band) => `<li>${band}</li>`)
+        .join("");
+    </script>
+  </body>
+</html>
